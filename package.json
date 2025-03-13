@@ -1,0 +1,47 @@
+{
+  "name": "react-lazy-grid",
+  "version": "1.0.0",
+  "description": "A React component that renders a grid of items lazily.",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/na-yuta/react-lazy-grid"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
+  "keywords": [
+    "react",
+    "lazy",
+    "grid",
+    "list",
+    "nextjs",
+    "ui-component"
+  ],
+  "author": "https://github.com/na-yuta",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rollup": "^4.35.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.2"
+  }
+}
