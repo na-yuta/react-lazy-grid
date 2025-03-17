@@ -38,6 +38,7 @@ const App = () => {
       height="500px"
       itemWidth={100}
       itemHeight={100}
+      transpose={false}
     />
   );
 };
@@ -49,14 +50,16 @@ export default App;
 
 ### LazyGridProps
 
-| Name         | Type                | Description                                                                 |
-|--------------|---------------------|-----------------------------------------------------------------------------|
-| `grid`       | `any[][]`           | A 2D array where each element is a property object passed to the component. |
-| `Component`  | `React.FC<any>`     | The component displayed in each grid cell.                                  |
-| `width`      | `string`            | The width of the entire grid.                                               |
-| `height`     | `string`            | The height of the entire grid.                                              |
-| `itemWidth`  | `number`            | The width of each grid cell.                                                |
-| `itemHeight` | `number`            | The height of each grid cell.                                               |
+| Name         | Type                | Description                                                                        |
+|--------------|---------------------|------------------------------------------------------------------------------------|
+| `grid`       | `any[][] | any[]`   | A 2D or 1D array where each element is a property object passed to the component.  |
+| `Component`  | `React.FC<any>`     | The component displayed in each grid cell.                                         |
+| `width`      | `string`            | The width of the entire grid.                                                      |
+| `height`     | `string`            | The height of the entire grid.                                                     |
+| `itemWidth`  | `number`            | The width of each grid cell.                                                       |
+| `itemHeight` | `number`            | The height of each grid cell.                                                      |
+| `buffer`     | `number`            | Optional. The number of extra rows and columns to render outside the visible area. |
+| `transpose`  | `boolean`           | Optional. If true, transposes the grid (switches rows and columns).                |
 
 ## License
 

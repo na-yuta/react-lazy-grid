@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 
 interface LazyGridProps {
-  grid: any[][];
+  grid: any[][] | any[];
   Component: React.FC<any>;
   width: string;
   height: string;
   itemWidth: number;
   itemHeight: number;
+  buffer?: number;
+  transpose?: boolean;
 }
 
-const LazyGrid: React.FC<LazyGridProps> = ({ grid, Component, width, height, itemWidth, itemHeight }) => {
+const LazyGrid: React.FC<LazyGridProps> = ({ grid, Component, width, height, itemWidth, itemHeight, buffer = 0, transpose = false }) => {
   const [scrollPosition, setScrollPosition] = useState({ top: 0, left: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -35,24 +37,33 @@ const LazyGrid: React.FC<LazyGridProps> = ({ grid, Component, width, height, ite
     };
   }, []);
 
-  const relativeWidth = grid[0].length * itemWidth;
-  const relativeHeight = grid.length * itemHeight;
+  const isTwoDimensional = Array.isArray(grid[0]);
 
-  const visibleRowStart = Math.floor(scrollPosition.top / itemHeight);
+  const transformedGrid = isTwoDimensional
+    ? (transpose ? grid[0].map((_, colIndex) => grid.map(row => row[colIndex])) : grid)
+    : (transpose ? [grid] : grid.map(item => [item]));
+
+  const rowCount = transformedGrid.length;
+  const colCount = transformedGrid[0].length;
+
+  const relativeWidth = colCount * itemWidth;
+  const relativeHeight = rowCount * itemHeight;
+
+  const visibleRowStart = Math.max(0, Math.floor(scrollPosition.top / itemHeight) - buffer);
   const visibleRowEnd = Math.min(
-    grid.length,
-    Math.ceil((scrollPosition.top + parseInt(height)) / itemHeight)
+    rowCount,
+    Math.ceil((scrollPosition.top + parseInt(height)) / itemHeight) + buffer
   );
-  const visibleColStart = Math.floor(scrollPosition.left / itemWidth);
+  const visibleColStart = Math.max(0, Math.floor(scrollPosition.left / itemWidth) - buffer);
   const visibleColEnd = Math.min(
-    grid[0].length,
-    Math.ceil((scrollPosition.left + parseInt(width)) / itemWidth)
+    colCount,
+    Math.ceil((scrollPosition.left + parseInt(width)) / itemWidth) + buffer
   );
 
   return (
     <div ref={containerRef} style={{ width, height, overflow: "scroll" }}>
       <div style={{ position: "relative", width: relativeWidth, height: relativeHeight }}>
-        {grid.slice(visibleRowStart, visibleRowEnd).map((row, rowIndex) =>
+        {transformedGrid.slice(visibleRowStart, visibleRowEnd).map((row, rowIndex) =>
           row.slice(visibleColStart, visibleColEnd).map((props, colIndex) => (
             <div
               key={`${visibleRowStart + rowIndex}-${visibleColStart + colIndex}`}
